@@ -1,0 +1,87 @@
+# Karavan Route Operations
+
+## Route Creation
+### Basic Route Structure
+- Route ID: Unique identifier for each route
+- From Component: Starting point of the route
+- Steps: Sequence of processors and components
+- Error Handling: Try-catch blocks and dead letter channels
+
+### Route Elements
+- Endpoints: URI format and configuration
+- Processors: Transform, Filter, Choice
+- Components: File, HTTP, JMS, etc.
+- EIP Patterns: Splitter, Aggregator, Content-Based Router
+
+### Route Properties
+- Description: Route documentation
+- Group: Logical grouping of routes
+- Auto-startup: Enable/disable auto start
+- Stream Cache: Enable/disable stream caching
+- Trace: Enable/disable route tracing
+
+## Route Editing
+### Structure Modifications
+- Add/Remove Steps
+- Reorder Processing Steps
+- Modify Component Configuration
+- Update Error Handlers
+- Change Route Flow
+
+### Property Updates
+- Endpoint URI Parameters
+- Component Configurations
+- Processing Logic
+- Error Handling Settings
+- Route Metadata
+
+### Visual Editor Features
+- Drag and Drop Components
+- Connection Management
+- Property Panel Access
+- Route Flow Visualization
+- Validation Feedback
+
+## Route Deletion
+### Pre-deletion Checks
+- Route Dependencies
+- Active Instances
+- Connected Components
+- Resource References
+- Active Messages
+
+### Cleanup Operations
+- Stop Route
+- Remove Resources
+- Clear Connections
+- Delete Configuration
+- Clean Metadata
+
+### Safety Measures
+- Backup Creation
+- Dependency Validation
+- State Verification
+- Resource Cleanup
+- Transaction Completion
+
+## Route Management
+### State Control
+- Start Route
+- Stop Route
+- Suspend Route
+- Resume Route
+- Reset Route
+
+### Monitoring
+- Message Count
+- Processing Time
+- Error Rate
+- Resource Usage
+- Health Status
+
+### Configuration
+- Route Context
+- Thread Pool
+- Memory Settings
+- Logging Level
+- Tracing Options

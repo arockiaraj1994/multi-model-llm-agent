@@ -5,6 +5,8 @@ from agno.vectordb.lancedb import LanceDb, SearchType
 from agno.embedder.google import GeminiEmbedder
 from pathlib import Path
 from agno.knowledge.text import TextKnowledgeBase
+from agno.playground import Playground, serve_playground_app
+
 
 # Initialize the TextKB
 knowledge_base = TextKnowledgeBase(
@@ -30,4 +32,11 @@ agent = Agent(
 )
 
 # Ask a question using the knowledge base
-agent.print_response("Why is the sky blue?")
+
+# agent.print_response("What is the recipe for a chocolate cake?", markdown=True)
+
+
+app = Playground(agents=[agent]).get_app()
+
+if __name__ == "__main__":
+    serve_playground_app("playground:app", reload=True)

@@ -1,0 +1,29 @@
+overview,id,name,objectvice,prerequisites,test_date,steps,expected_result,yaml,project_name
+This test scenario validates that a timer-based route in Apache Karavan triggers correctly and executes its defined logic at the specified interval. The route is configured to log a message to the console every 5 seconds.,TS-001,TimerRouteBasic,Verify timer route triggers and logs message every 5 seconds,Karavan is installed and running.  No existing routes with the same ID.,N/A,"['Deploy the provided YAML route definition to Karavan.', 'Monitor the Karavan logs or console output.', ""Observe that the message 'Timer triggered!' is logged approximately every 5 seconds.""]","The message 'Timer triggered!' is logged to the console every 5 seconds, demonstrating the timer route is functioning correctly.","- route:
+    id: timer-route
+    from:
+      uri: timer:tick?period=5000
+      steps:
+        - log: ""Timer triggered!""",timer-route
+"This test scenario assesses the timer route's ability to handle a simple data transformation. The timer triggers every 3 seconds, appends a timestamp to a message, and logs the result.",TS-002,TimerRouteWithTransform,"Verify timer route triggers, transforms data, and logs the result.",Karavan is installed and running.  No existing routes with the same ID.,N/A,"['Deploy the provided YAML route definition to Karavan.', 'Monitor the Karavan logs or console output.', ""Observe that a message containing 'Timer triggered at' followed by a timestamp is logged approximately every 3 seconds.""]",A message similar to 'Timer triggered at 2024-10-27T10:00:00' is logged to the console every 3 seconds.,"- route:
+    id: timer-transform-route
+    from:
+      uri: timer:transformTimer?period=3000
+      steps:
+        - setBody:
+            simple: ""Timer triggered at ${date:now:yyyy-MM-dd'T'HH:mm:ss}""
+        - log: ""${body}""",timer-xform
+"This test scenario evaluates the timer route's interaction with another component (in this case, a direct endpoint). The timer triggers every 7 seconds, sends a message to the direct endpoint, which then logs the message.",TS-003,TimerRouteToDirect,"Verify timer route triggers, sends message to direct endpoint, and message is logged.",Karavan is installed and running.  No existing routes with the same ID.,N/A,"['Deploy the provided YAML route definition to Karavan.', 'Monitor the Karavan logs or console output.', ""Observe that the message 'Message received from timer!' is logged approximately every 7 seconds.""]","The message 'Message received from timer!' is logged to the console every 7 seconds, demonstrating the timer route is sending messages correctly to the direct endpoint.","- route:
+    id: timer-to-direct-route
+    from:
+      uri: timer:directTimer?period=7000
+      steps:
+        - setBody:
+            constant: ""Message from timer!""
+        - to: direct:logMessage
+- route:
+    id: direct-log-route
+    from:
+      uri: direct:logMessage
+      steps:
+        - log: ""Message received from timer!""",timer-direct

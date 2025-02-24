@@ -7,3 +7,14 @@ lancedb>=0.4.0
 duckduckgo-search>=4.1.1
 tantivy>=0.22.0
 pandas>=2.2.3
+youtube-transcript-api==0.6.3
+fastapi == 0.115.8
+uvicorn == 0.34.0
+SQLAlchemy == 2.0.38
+yfinance == 0.2.54
+apify-client==1.9.2
+Crawl4AI ==0.4.248
+duckdb == 1.2.0
+selenium == 4.29.0
+
+

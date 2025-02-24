@@ -1,5 +1,6 @@
 # Virtual Environment
 venv/
+.venv
 
 # Python
 __pycache__/
@@ -21,3 +22,9 @@ build/
 
 # Environment variables
 .env
+
+# Temporary files
+tmp/
+
+# Log files
+*.log
