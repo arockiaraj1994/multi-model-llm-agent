@@ -16,6 +16,15 @@ def load_test_cases():
     return test_cases
 
 class IntegrationManagerTest(unittest.TestCase):
+    # Configurable delay times in seconds
+    GENERAL_DELAY = 2
+    DELAY_AFTER_SAVE = 2
+    DELAY_AFTER_PROJECT_CLICK = 2
+    DELAY_AFTER_YAML_INPUT = 2
+    DELAY_AFTER_ROUTES_TAB = 5
+    DELAY_MONACO_EDITOR = 5
+    DELAY_AFTER_RUN = 10
+
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(10)
@@ -34,12 +43,14 @@ class IntegrationManagerTest(unittest.TestCase):
         )
         projects_button.click()
         
+        time.sleep(self.GENERAL_DELAY)
         # Click create button
         create_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.CLASS_NAME, "dev-action-button"))
         )
         create_button.click()
         
+        time.sleep(self.GENERAL_DELAY)
         # Wait for the form fields to be visible
         project_id_input = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.ID, "projectId"))
@@ -50,6 +61,7 @@ class IntegrationManagerTest(unittest.TestCase):
         project_id_input.send_keys(project_name)
         project_name_input.send_keys(f"{project_name}")
         
+        time.sleep(self.GENERAL_DELAY)
         # Find the save button within the modal footer
         save_button = self.driver.find_element(
             By.CSS_SELECTOR, 
@@ -59,8 +71,8 @@ class IntegrationManagerTest(unittest.TestCase):
         # Click the save button
         save_button.click()
         
-        # Wait for 10 seconds after saving
-        time.sleep(2)
+        # Wait after saving
+        time.sleep(self.DELAY_AFTER_SAVE)
         
         # Wait for the project link with specific project name to be clickable
         project_link = WebDriverWait(self.driver, 10).until(
@@ -80,7 +92,7 @@ class IntegrationManagerTest(unittest.TestCase):
         project_link.click()
         
         # Wait for project details to load
-        time.sleep(2)
+        time.sleep(self.DELAY_AFTER_PROJECT_CLICK)
         
         # Verify we're on the correct project page
         project_header = self.driver.find_element(By.CSS_SELECTOR, "div.pf-v5-c-content.title h2")
@@ -128,7 +140,7 @@ class IntegrationManagerTest(unittest.TestCase):
         save_button.click()
         
         # Wait to see the result
-        time.sleep(2)
+        time.sleep(self.DELAY_AFTER_SAVE)
         
         # Wait for the main tabs to be present and find the YAML tab
         main_tabs = WebDriverWait(self.driver, 10).until(
@@ -143,7 +155,7 @@ class IntegrationManagerTest(unittest.TestCase):
         yaml_tab.click()
         
         # Wait for the Monaco editor to load
-        time.sleep(5)
+        time.sleep(self.DELAY_MONACO_EDITOR)
 
         # Use JavaScript to set the editor content with the yaml from CSV
         set_editor_script = """
@@ -153,7 +165,7 @@ class IntegrationManagerTest(unittest.TestCase):
         self.driver.execute_script(set_editor_script, yaml_content)
         
         # Wait to see the formatted result
-        time.sleep(2)
+        time.sleep(self.DELAY_AFTER_YAML_INPUT)
         
         # Find and click the Routes tab (first tab)
         routes_tab = main_tabs.find_element(
@@ -163,7 +175,7 @@ class IntegrationManagerTest(unittest.TestCase):
         routes_tab.click()
         
         # Wait to see the result
-        time.sleep(5)
+        time.sleep(self.DELAY_AFTER_ROUTES_TAB)
         
         # Find and click the Run button
         run_button = WebDriverWait(self.driver, 10).until(
@@ -175,7 +187,7 @@ class IntegrationManagerTest(unittest.TestCase):
         run_button.click()
         
         # Wait to see the result
-        time.sleep(10)
+        time.sleep(self.DELAY_AFTER_RUN)
 
 if __name__ == "__main__":
     unittest.main()

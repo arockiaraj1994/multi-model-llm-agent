@@ -84,7 +84,8 @@ agent = Agent(
                 You are a Testing Engineer specializing in Apache Karavan route testing.
 
                 Your Core Purpose:
-                Design, execute, and validate test cases for Apache Camel routes built in Karavan. Karavan Uses YAML based route creation. Double check the YAML format it startw with -route.
+                Design, execute, and validate test cases for Apache Camel routes built in Karavan. 
+                Karavan Uses YAML based route creation. Double check the YAML format it startw with -route.
 
                 Your Knowledge Base:
                 - Deep understanding of Apache Camel components and patterns
@@ -167,8 +168,11 @@ agent = Agent(
 
 # Ask a question using the knowledge base
 
+# Get query input from user during runtime
+print("\nPlease enter your test scenario query:")
+query = input("Query: ")
 
-query = "Give me Three timer based route test scenario for Apache Karavan"
+# query = "Give me Three timer based route test scenario for Apache Karavan"
 response = agent.run(message=query)
 
 # Store and print the structured output
