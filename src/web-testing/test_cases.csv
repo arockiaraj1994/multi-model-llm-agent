@@ -1,29 +1,23 @@
 overview,id,name,objectvice,prerequisites,test_date,steps,expected_result,yaml,project_name
-This test scenario validates that a timer-based route in Apache Karavan triggers correctly and executes its defined logic at the specified interval. The route is configured to log a message to the console every 5 seconds.,TS-001,TimerRouteBasic,Verify timer route triggers and logs message every 5 seconds,Karavan is installed and running.  No existing routes with the same ID.,N/A,"['Deploy the provided YAML route definition to Karavan.', 'Monitor the Karavan logs or console output.', ""Observe that the message 'Timer triggered!' is logged approximately every 5 seconds.""]","The message 'Timer triggered!' is logged to the console every 5 seconds, demonstrating the timer route is functioning correctly.","- route:
-    id: timer-route
+This test case validates that a route configured with a timer component triggers at the defined interval and processes a fixed message.,TM-001,Simple Timer Trigger,Verify timer-based route triggers and processes a message at a fixed interval.,"Karavan instance running, Camel runtime available.",N/A - fixed message,"['Deploy the route to Karavan.', ""Monitor the logs for the 'Timer triggered' message."", 'Verify the message is logged every 10 seconds.']",A log message 'Timer triggered' appears every 10 seconds in the Camel runtime logs.,"- route:
+    id: timer-route-1
     from:
-      uri: timer:tick?period=5000
+      uri: timer:tick?period=10s
       steps:
-        - log: ""Timer triggered!""",timer-route
-"This test scenario assesses the timer route's ability to handle a simple data transformation. The timer triggers every 3 seconds, appends a timestamp to a message, and logs the result.",TS-002,TimerRouteWithTransform,"Verify timer route triggers, transforms data, and logs the result.",Karavan is installed and running.  No existing routes with the same ID.,N/A,"['Deploy the provided YAML route definition to Karavan.', 'Monitor the Karavan logs or console output.', ""Observe that a message containing 'Timer triggered at' followed by a timestamp is logged approximately every 3 seconds.""]",A message similar to 'Timer triggered at 2024-10-27T10:00:00' is logged to the console every 3 seconds.,"- route:
-    id: timer-transform-route
+        - set-body:
+            constant: ""Timer triggered""
+        - log: ""${body}""",timer-route-1
+This test case validates a timer route that uses a dynamic period defined by a property placeholder.,TM-002,Dynamic Timer Period,Verify timer component uses a property placeholder for dynamic period configuration.,"Karavan instance running, Camel runtime available, Property 'timer.period' set to 5s.",N/A - fixed message,"[""Set the 'timer.period' property to '5s' in the Camel context or application properties."", 'Deploy the route to Karavan.', ""Monitor the logs for the 'Timer triggered' message."", 'Verify the message is logged every 5 seconds.']",A log message 'Timer triggered' appears every 5 seconds in the Camel runtime logs.,"- route:
+    id: timer-route-2
     from:
-      uri: timer:transformTimer?period=3000
+      uri: timer:tick?period={{timer.period}}
       steps:
-        - setBody:
-            simple: ""Timer triggered at ${date:now:yyyy-MM-dd'T'HH:mm:ss}""
-        - log: ""${body}""",timer-xform
-"This test scenario evaluates the timer route's interaction with another component (in this case, a direct endpoint). The timer triggers every 7 seconds, sends a message to the direct endpoint, which then logs the message.",TS-003,TimerRouteToDirect,"Verify timer route triggers, sends message to direct endpoint, and message is logged.",Karavan is installed and running.  No existing routes with the same ID.,N/A,"['Deploy the provided YAML route definition to Karavan.', 'Monitor the Karavan logs or console output.', ""Observe that the message 'Message received from timer!' is logged approximately every 7 seconds.""]","The message 'Message received from timer!' is logged to the console every 7 seconds, demonstrating the timer route is sending messages correctly to the direct endpoint.","- route:
-    id: timer-to-direct-route
+        - set-body:
+            constant: ""Timer triggered""
+        - log: ""${body}""",timer-route-2
+This test case validates a timer route that triggers a bean invocation at a set interval. This tests integration between the timer and bean components.,TM-003,Timer to Bean Invocation,Verify timer triggers a bean invocation at the specified interval.,"Karavan instance running, Camel runtime available, a bean named 'myBean' with a method 'process' is available in the registry.",N/A,"[""Ensure a bean named 'myBean' with a method named 'process' exists and is registered in the Camel context."", 'Deploy the route to Karavan.', ""Monitor the logs or the bean's output to confirm invocation."", ""Verify the bean's 'process' method is invoked every 3 seconds.""]","The 'process' method of the 'myBean' bean is invoked every 3 seconds, confirmed by logs or bean's output.","- route:
+    id: timer-route-3
     from:
-      uri: timer:directTimer?period=7000
+      uri: timer:tick?period=3s
       steps:
-        - setBody:
-            constant: ""Message from timer!""
-        - to: direct:logMessage
-- route:
-    id: direct-log-route
-    from:
-      uri: direct:logMessage
-      steps:
-        - log: ""Message received from timer!""",timer-direct
+        - bean: myBean?method=process",timer-route-3

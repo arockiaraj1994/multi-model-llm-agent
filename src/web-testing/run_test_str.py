@@ -168,7 +168,7 @@ agent = Agent(
 # Ask a question using the knowledge base
 
 
-query = "Give me timer based one route test examples for Apache Karavan"
+query = "Give me Three timer based route test scenario for Apache Karavan"
 response = agent.run(message=query)
 
 # Store and print the structured output

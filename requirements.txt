@@ -16,5 +16,6 @@ apify-client==1.9.2
 Crawl4AI ==0.4.248
 duckdb == 1.2.0
 selenium == 4.29.0
+parameterized == 0.9.0
 
 
